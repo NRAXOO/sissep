@@ -1,0 +1,35 @@
+import {
+  Entity, PrimaryGeneratedColumn, Column,
+  CreateDateColumn, UpdateDateColumn
+} from 'typeorm';
+import { UserRole } from '../../types';
+
+@Entity('users')
+export class UserEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
+
+  @Column({ unique: true })
+  controlNumber!: string;          // número de control / usuario
+
+  @Column()
+  name!: string;
+
+  @Column()
+  passwordHash!: string;
+
+  @Column({ type: 'varchar', default: 'estudiante' })
+  role!: UserRole;
+
+  @Column({ nullable: true })
+  carrera!: string;
+
+  @Column({ nullable: true })
+  encargadoSection!: string;       // solo para encargados
+
+  @CreateDateColumn()
+  createdAt!: Date;
+
+  @UpdateDateColumn()
+  updatedAt!: Date;
+}
