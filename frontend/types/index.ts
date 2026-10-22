@@ -1,5 +1,5 @@
 export type UserRole    = 'estudiante' | 'encargado';
-export type DocStatus   = 'pendiente'  | 'aprobado' | 'rechazado';
+export type DocStatus   = 'pendiente'  | 'enviado' | 'aprobado' | 'rechazado';
 export type ProgramType = 'servicio_social' | 'residencias';
 
 export interface User {

@@ -3,6 +3,7 @@ import { DocStatus } from '@/types';
 const CONFIG: Record<DocStatus, { label: string; className: string }> = {
   aprobado:  { label: 'Aprobado',  className: 'status-approved' },
   pendiente: { label: 'Pendiente', className: 'status-pending'  },
+  enviado:   { label: 'Enviado',   className: 'status-sent'     },
   rechazado: { label: 'Rechazado', className: 'status-rejected' },
 };
 

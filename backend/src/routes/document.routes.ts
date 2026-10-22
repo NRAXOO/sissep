@@ -12,6 +12,7 @@ router.post('/url',                authenticate, authorize('estudiante'), Docume
 
 // Rutas del encargado
 router.get( '/progress',           authenticate, authorize('encargado'), DocumentController.progress);
+router.get( '/filter',              authenticate, authorize('encargado'), DocumentController.filterDocs);
 router.get( '/student/:studentId', authenticate, authorize('encargado'), DocumentController.studentDocs);
 router.patch('/:docId/review',     authenticate, authorize('encargado'), DocumentController.reviewDoc);
 

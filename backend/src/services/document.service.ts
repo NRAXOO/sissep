@@ -47,6 +47,26 @@ export async function getStudentDocuments(studentId: string, programType: Progra
   });
 }
 
+export async function filterDocuments(programType: ProgramType, status: DocStatus) {
+  return AppDataSource.query(
+    `SELECT 
+        d.id,
+        d.student_id AS "studentId", 
+        d.category, 
+        d.status,
+        d.created_at,
+        u.name AS "studentName", 
+        u.control_number AS "controlNumber", 
+        u.carrera, 
+        u.encargado_section AS "section"
+     FROM documents d
+     JOIN users u ON d.student_id = u.id
+     WHERE d.program_type = $1 AND d.status = $2
+     ORDER BY d.created_at DESC`,
+    [programType, status]
+  );
+}
+
 // Registra un archivo fisico subido por el estudiante
 export async function submitFile(data: {
   studentId:   string;
@@ -73,7 +93,7 @@ export async function submitFile(data: {
   doc.fileName     = data.fileName;
   doc.filePath     = data.filePath;
   doc.fileSize     = data.fileSize;
-  doc.status       = 'pendiente';
+  doc.status       = 'enviado';
   doc.observations = '';
 
   return repo().save(doc);
@@ -96,7 +116,7 @@ export async function submitUrl(data: {
   if (!doc) throw new Error(`Documento "${data.category}" no encontrado en el catalogo`);
 
   doc.externalUrl  = data.externalUrl;
-  doc.status       = 'pendiente';
+  doc.status       = 'enviado';
   doc.observations = '';
 
   return repo().save(doc);
@@ -130,6 +150,7 @@ export async function getStudentsProgress(programType: ProgramType) {
        COUNT(d.id)::int                                             AS total,
        SUM(CASE WHEN d.status = 'aprobado'  THEN 1 ELSE 0 END)::int AS approved,
        SUM(CASE WHEN d.status = 'pendiente' THEN 1 ELSE 0 END)::int AS pending,
+       SUM(CASE WHEN d.status = 'enviado'   THEN 1 ELSE 0 END)::int AS sent,
        SUM(CASE WHEN d.status = 'rechazado' THEN 1 ELSE 0 END)::int AS rejected
      FROM users u
      LEFT JOIN documents d

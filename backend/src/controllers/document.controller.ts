@@ -66,6 +66,15 @@ export async function studentDocs(req: Request, res: Response): Promise<void> {
   } catch (e: any) { fail(res, e.message); }
 }
 
+export async function filterDocs(req: Request, res: Response): Promise<void> {
+  try {
+    const pt = (req.query.programType as ProgramType) || 'servicio_social';
+    const status = req.query.status as DocStatus;
+    if (!status) { fail(res, 'El estado es requerido'); return; }
+    ok(res, await DocumentService.filterDocuments(pt, status));
+  } catch (e: any) { fail(res, e.message); }
+}
+
 export async function reviewDoc(req: Request, res: Response): Promise<void> {
   try {
     const { docId }                = req.params;

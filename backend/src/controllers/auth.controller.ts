@@ -35,3 +35,21 @@ export async function listStudents(_req: Request, res: Response): Promise<void> 
     fail(res, e.message);
   }
 }
+
+export async function updateStudent(req: Request, res: Response): Promise<void> {
+  try {
+    const { id } = req.params;
+    ok(res, await AuthService.updateUser(id, req.body));
+  } catch (e: any) {
+    fail(res, e.message);
+  }
+}
+
+export async function deleteStudent(req: Request, res: Response): Promise<void> {
+  try {
+    const { id } = req.params;
+    ok(res, await AuthService.deleteUser(id));
+  } catch (e: any) {
+    fail(res, e.message);
+  }
+}

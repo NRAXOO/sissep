@@ -69,3 +69,28 @@ export async function getAllStudents() {
     select: ['id', 'controlNumber', 'name', 'carrera', 'createdAt'],
   });
 }
+
+export async function updateUser(id: string, data: {
+  name?: string;
+  controlNumber?: string;
+  password?: string;
+  carrera?: string;
+}) {
+  const user = await repo().findOne({ where: { id } });
+  if (!user) throw new Error('Usuario no encontrado');
+
+  if (data.name) user.name = data.name.trim();
+  if (data.controlNumber) user.controlNumber = data.controlNumber.trim();
+  if (data.carrera) user.carrera = data.carrera.trim();
+  if (data.password) user.passwordHash = await hashPassword(data.password);
+
+  await repo().save(user);
+  return { id: user.id, name: user.name, controlNumber: user.controlNumber };
+}
+
+export async function deleteUser(id: string) {
+  const user = await repo().findOne({ where: { id } });
+  if (!user) throw new Error('Usuario no encontrado');
+  await repo().remove(user);
+  return { id };
+}

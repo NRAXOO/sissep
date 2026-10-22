@@ -131,6 +131,34 @@ export default function StudentPage() {
           </div>
           <p className="progress-note">{approved} de {docs.length} documentos aprobados</p>
         </div>
+        <div className="divider" style={{ margin: '20px 0' }} />
+        <span className="sidebar-section-label">Estadisticas</span>
+        <div className="sidebar-stat">
+          <span>Documentos</span>
+          <strong style={{ color: 'var(--accent-hover)' }}>{docs.length}</strong>
+        </div>
+        <div className="sidebar-stat">
+          <span>Pendientes</span>
+          <strong style={{ color: 'var(--amber)' }}>
+            {docs.filter((d) => d.status === 'pendiente').length}
+          </strong>
+        </div>
+        <div className="sidebar-stat">
+          <span>Enviados</span>
+          <strong style={{ color: 'var(--blue)' }}>
+            {docs.filter((d) => d.status === 'enviado').length}
+          </strong>
+        </div>
+        <div className="sidebar-stat">
+          <span>Aprobados</span>
+          <strong style={{ color: 'var(--green)' }}>{approved}</strong>
+        </div>
+        <div className="sidebar-stat">
+          <span>Rechazados</span>
+          <strong style={{ color: 'var(--red)' }}>
+            {docs.filter((d) => d.status === 'rechazado').length}
+          </strong>
+        </div>
       </aside>
 
       {/* Contenido principal */}
